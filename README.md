@@ -401,3 +401,472 @@ Beyond workouts, I built a **`/api/dining/top-meals/`** endpoint that:
 All API keys (Google and OpenAI) live in environment variables, keeping secrets out of source control.
 
 ---
+
+# Full API Specification
+> **ℹ️ Information**  
+> Most of the endpoints implemented are currently unused by the front-end. They’re included here for completeness but may need further review.
+
+## Authentication Endpoints
+
+1. **Register a new account**
+
+   * **Request**:
+
+     * **Method & URL**: `POST /api/register/`
+     * **Body**:
+
+       ```json
+       {
+         "username":   "myusername",
+         "email":      "me@example.com",
+         "password":   "s3cret",
+         "first_name": "My",
+         "last_name":  "Name"
+       }
+       ```
+   * **Response**:
+
+     * **201 Created** with JSON:
+
+       ```json
+       {
+         "id": 42,
+         "username": "myusername",
+         "email": "me@example.com",
+         "first_name": "My",
+         "last_name": "Name",
+         "session_token": "550e8400-e29b-41d4-a716-446655440000",
+         "session_expiration": "2025-05-04T12:34:56",
+         "update_token": "123e4567-e89b-12d3-a456-426614174000"
+       }
+       ```
+     * **400 Bad Request** if I omit any required field or use a taken username/email:
+
+       ```json
+       { "error": "Username is already taken" }
+       ```
+
+2. **Log in with username & password**
+
+   * **Request**:
+
+     * **Method & URL**: `POST /api/login/`
+     * **Body**:
+
+       ```json
+       {
+         "username": "myusername",
+         "password": "s3cret"
+       }
+       ```
+   * **Response**:
+
+     * **200 OK** returns the same JSON shape as registration (new tokens).
+     * **401 Unauthorized** if credentials are wrong:
+
+       ```json
+       { "error": "Invalid username or password" }
+       ```
+
+3. **Log in with Google**
+
+   * **Request**:
+
+     * **Method & URL**: `POST /api/google-login/`
+     * **Body**:
+
+       ```json
+       {
+         "google_id_token": "<ID-TOKEN-FROM-FRONTEND>"
+       }
+       ```
+   * **Response**:
+
+     * **200 OK** returns user data + tokens (same shape as above).
+     * **401 Unauthorized** if Google rejects the token:
+
+       ```json
+       { "error": "Invalid Google ID token: <detail>" }
+       ```
+
+4. **Refresh my session**
+
+   * **Request**:
+
+     * **Method & URL**: `POST /api/session/`
+     * **Body**:
+
+       ```json
+       { "update_token": "123e4567-e89b-12d3-a456-426614174000" }
+       ```
+   * **Response**:
+
+     * **200 OK** with fresh `session_token`, `session_expiration`, and new `update_token`.
+     * **401 Unauthorized** if my `update_token` is invalid.
+
+5. **Log out**
+
+   * **Request**:
+
+     * **Method & URL**: `POST /api/logout/`
+     * **Headers**: `Authorization: Bearer <my session_token>`
+   * **Response**:
+
+     * **200 OK**:
+
+       ```json
+       { "message": "Successfully logged out" }
+       ```
+     * **401 Unauthorized** if token is missing/expired.
+
+---
+
+## User Management
+
+6. **Get my profile**
+
+   * **Request**:
+
+     * **Method & URL**: `GET /api/user/`
+     * **Headers**: `Authorization: Bearer <session_token>`
+   * **Response**:
+
+     * **200 OK**:
+
+       ```json
+       {
+         "id": 42,
+         "username": "myusername",
+         "email": "me@example.com",
+         "first_name": "My",
+         "last_name": "Name",
+         "created_at": "2025-05-01T08:00:00"
+       }
+       ```
+
+7. **List all users**
+
+   * **Request**: `GET /api/users/` with my auth header.
+   * **Response**:
+
+     * **200 OK**: array of user objects (same shape as above).
+
+8. **Get any user by ID**
+
+   * **Request**: `GET /api/users/{user_id}/` with auth.
+   * **Response**:
+
+     * **200 OK**: that user’s object.
+     * **404 Not Found** if no such user.
+
+9. **Update my name**
+
+   * **Request**:
+
+     * **Method & URL**: `PUT /api/users/{my_id}/`
+     * **Headers**: auth
+     * **Body**: any of:
+
+       ```json
+       { "first_name": "NewFirst", "last_name": "NewLast" }
+       ```
+   * **Response**:
+
+     * **200 OK**: updated user.
+     * **403 Forbidden** if I try to update someone else.
+
+10. **Delete my account**
+
+    * **Request**: `DELETE /api/users/{my_id}/` with auth.
+    * **Response**:
+
+      * **200 OK**:
+
+        ```json
+        { "message": "User deleted successfully" }
+        ```
+      * **403** if I target another user.
+
+---
+
+## Exercises & GIFs
+
+11. **Create an exercise**
+
+    * **Request**:
+
+      * **Method & URL**: `POST /api/exercises/`
+      * **Headers**: auth
+      * **Body**:
+
+        ```json
+        {
+          "bodyPart": "chest",
+          "equipment": "barbell",
+          "gifUrl": "/api/gifs/12/",
+          "name": "bench press",
+          "target": "pectorals",
+          "secondaryMuscles": ["triceps", "delts"],
+          "instructions": [
+            "Lie on bench",
+            "Grip barbell",
+            "Press up"
+          ]
+        }
+        ```
+    * **Response**:
+
+      * **201 Created**: the serialized exercise:
+
+        ```json
+        {
+          "id": 12,
+          "bodyPart": "chest",
+          "equipment": "barbell",
+          "gifUrl": "/api/gifs/12/",
+          "name": "bench press",
+          "target": "pectorals",
+          "secondaryMuscles": ["triceps","delts"],
+          "instructions": ["Lie on bench","Grip barbell","Press up"]
+        }
+        ```
+
+12. **List all exercises**
+
+    * **Request**: `GET /api/exercises/`
+    * **Response**:
+
+      * **200 OK**: array of exercises.
+      * **404** if none exist.
+
+13. **Get one exercise**
+
+    * **Request**: `GET /api/exercises/{id}`
+    * **Response**:
+
+      * **200**: that exercise.
+      * **404** if not found.
+
+14. **Serve exercise GIF**
+
+    * **Request**: `GET /api/gifs/{gif_id}/`
+    * **Response**:
+
+      * The `.gif` file.
+      * **404** JSON error if missing.
+
+---
+
+## Workouts & Weekly Plans
+
+15. **Create a workout**
+
+    * **Request**:
+
+      * **Method & URL**: `POST /api/workouts/`
+      * **Headers**: auth
+      * **Body**:
+
+        ```json
+        {
+          "name": "Full Body Blast",
+          "description": "A total-body circuit",
+          "duration": 45,
+          "exercises": [12, 13, 14],
+          "exercise_plan": {
+            "12": { "sets": 3, "reps": 10 },
+            "13": { "sets": 2, "reps": 15 }
+          }
+        }
+        ```
+    * **Response**:
+
+      * **201**: the new workout with its ID and my user ID.
+
+16. **List all workouts**
+
+    * **Request**: `GET /api/workouts/`
+    * **Response**:
+
+      * **200**: array of workouts, each including `exercises` (array) and `exercise_plan` (object).
+
+17. **Get a workout**
+
+    * **Request**: `GET /api/workouts/{id}/`
+    * **Response**:
+
+      * **200**: that workout.
+      * **404** if missing.
+
+18. **Update my workout**
+
+    * **Request**:
+
+      * **Method & URL**: `PUT /api/workouts/{id}/`
+      * **Headers**: auth
+      * **Body**: any fields I want to change.
+    * **Response**:
+
+      * **200** updated workout or **403** if I’m not the creator.
+
+19. **Delete my workout**
+
+    * **Request**: `DELETE /api/workouts/{id}/` with auth.
+    * **Response**:
+
+      * **200** message or **403** if unauthorized.
+
+20. **Create/replace my weekly plan**
+
+    * **Request**:
+
+      * **Method & URL**: `POST /api/weekly-workout/`
+      * **Headers**: auth
+      * **Body**:
+
+        ```json
+        {
+          "week_start_date": "2025-05-05",
+          "monday_id": 5,
+          "wednesday_id": 7
+        }
+        ```
+      * Omit any day I don’t want to set; defaults to today for `week_start_date` if I leave it out.
+    * **Response**:
+
+      * **201 Created**:
+
+        ```json
+        { "id": 3, "message": "Weekly workout plan created successfully." }
+        ```
+
+21. **List all weekly plans**
+
+    * **Request**: `GET /api/weekly-workouts/`
+    * **Response**: **200** list of plans with each day’s workout IDs.
+
+22. **Get a weekly plan**
+
+    * **Request**: `GET /api/weekly-workouts/{id}/`
+    * **Response**:
+
+      * **200** plan object or **404** if not found.
+
+23. **Update my weekly plan**
+
+    * **Request**:
+
+      * **Method & URL**: `PUT /api/weekly-workouts/{id}/`
+      * **Headers**: auth
+      * **Body**: any subset of `monday_id`…`sunday_id`.
+    * **Response**:
+
+      * **200** updated plan or **403** if I don’t own it.
+
+24. **Delete my weekly plan**
+
+    * **Request**: `DELETE /api/weekly-workouts/{id}/` with auth.
+    * **Response**:
+
+      * **200** message or **403** if unauthorized.
+
+---
+
+## Posts
+
+25. **List all posts**
+
+    * **Request**: `GET /api/posts/`
+    * **Response**: **200** array of posts (with `workout_id` and `weekly_workout_id`).
+
+26. **Get a post**
+
+    * **Request**: `GET /api/posts/{id}/`
+    * **Response**: **200** the post or **404** if missing.
+
+27. **Create a post**
+
+    * **Request**:
+
+      * **Method & URL**: `POST /api/posts/`
+      * **Headers**: auth
+      * **Body**:
+
+        ```json
+        {
+          "title": "My Workout Notes",
+          "content": "Felt great today!",
+          "workout_id": 5,
+          "weekly_workout_id": 3
+        }
+        ```
+    * **Response**:
+
+      * **201** new post or **400** if I omit `title`.
+
+28. **Update my post**
+
+    * **Request**: `PUT /api/posts/{id}/` with auth + any fields to change.
+    * **Response**: **200** updated or **403** if I didn’t author it.
+
+29. **Delete my post**
+
+    * **Request**: `DELETE /api/posts/{id}/` with auth.
+    * **Response**: **200** message or **403** if unauthorized.
+
+---
+
+## Dining Recommendations
+
+30. **Get top meals**
+
+    * **Request**:
+
+      * **Method & URL**: `POST /api/dining/top-meals/`
+      * **Headers**: auth
+      * **Body**: optional `{ "goal": "cutting" }` or `"bulking"`.
+    * **Response**:
+
+      * **200**:
+
+        ```json
+        { "recommendations": [/* up to 10 meal objects */] }
+        ```
+      * **500** on server errors.
+
+---
+
+## Data Models & Relationships
+
+* **Users**
+
+  * I store `username`, `email`, `password_hash`, `first_name`, `last_name`, timestamps, plus my `session_token` and `update_token`.
+  * **One-to-One** → **WeeklyWorkout** via `User.weekly_workout_id`.
+  * **One-to-Many** → **Workout.created\_by** (I create workouts).
+  * **Many-to-Many** ↔ **Workout** through `user_workout` association (I can save others’ workouts).
+
+* **WeeklyWorkout**
+
+  * Holds a `week_start_date` and seven foreign keys (`monday_id`…`sunday_id`) each pointing to a **Workout**.
+  * Backrefs let me do `weekly_workout.monday_workout`, etc., and `user.weekly_workout`.
+
+* **Workout**
+
+  * I record `name`, `description`, `duration`, `created_by` (FK → User).
+  * I keep two JSON blobs:
+
+    * `exercises`: an array of exercise IDs
+    * `exercise_plan`: a map from exercise ID → `{ reps, sets, … }`
+  * Helpers let me load full **Exercise** objects and merge in plan details.
+
+* **Exercise**
+
+  * Independent table of exercises with `bodyPart`, `equipment`, `gifUrl`, `name`, `target`, plus JSON-string fields for `secondaryMuscles` and `instructions`.
+
+* **Post**
+
+  * I store `title`, `content`, `created_by` (FK → User), optional `workout_id` and `weekly_workout_id`.
+  * Backrefs let me navigate `post.author`, `post.workout`, and `post.weekly_workout`.
+
+---
+
