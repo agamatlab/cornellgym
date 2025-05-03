@@ -260,3 +260,140 @@ When you **share** your own daily plan, the app posts first to `/api/workouts/`,
 Finally, the **ProfileView** shows your Google avatar and first name, along with placeholder sections for account and app settings. A **Logout** button ties back to `AuthManager.logout()`, cleaning your session and returning to the animated login page.
 
 ---
+
+# BackEnd
+
+
+## Authentication
+
+The cornerstone of CornellGym’s backend is its **Google‐based authentication** flow, which I prioritized because it provides robust identity verification without forcing users through additional registration screens.
+
+On the **frontend**, I imported Google’s official iOS SDK directly from GitHub. That handles the user interface and OAuth handshake for us, so all I needed to do was pass the resulting **Google ID token** to my backend.
+
+On the **backend**, I copied best practices I learned from an in-depth YouTube lecture on Google Sign In:
+
+1. **Rate-Limiting Duplicate Logins**
+   I used a `@rate_limit_auth` decorator that tracks recent auth attempts per email in memory. If the same email hits `/api/google-login/` again within a cooldown window (3 seconds), we simply return the *existing* session token rather than re-verifying with Google. This both protects Google’s token-verification endpoint from bursts of duplicate requests and gives a snappier UX.
+
+2. **Token Verification & User Provisioning**
+
+   * In `/api/google-login/`, we extract the `google_id_token` from the POST body.
+   * In production mode, we call Google’s OAuth2 library (`id_token.verify_oauth2_token`) with our **GOOGLE\_CLIENT\_ID** to confirm the token’s validity and pull the user’s email, given\_name, and family\_name.
+   * In debug mode, we bypass real verification and accept a `test_mode` flag—this let me iterate quickly during development.
+
+3. **Session & Update Tokens**
+   Once a token is verified:
+
+   * We look up the `User` by email (creating a new record if none exists).
+   * We generate two UUIDv4 strings:
+
+     * `session_token` (used for all subsequent API calls)
+     * `update_token` (used to renew an expired session without forcing a full re-login)
+   * We set `session_expiration = now + 1 day`.
+   * We save those values in the user’s database row and return them in the JSON response.
+
+4. **Stateless Protection for All Endpoints**
+   A `@user_authentication_required` decorator then guards every other protected route. It:
+
+   * Reads the `Authorization: Bearer <session_token>` header.
+   * Verifies that token exists in the database and hasn’t expired.
+   * Looks up the corresponding `User` and passes it into the route handler.
+   * Returns a 401 error if the token is missing, invalid, or expired.
+
+---
+
+## Database Models & Relationships
+
+I designed each SQLAlchemy model to mirror the needs of the SwiftUI frontend:
+
+* **User**
+
+  * Stores `username`, `email`, `password_hash` (for fallback local login), plus `first_name` and `last_name` (populated from Google).
+  * Holds `session_token`, `session_expiration`, and `update_token` for stateless auth.
+  * Defines relationships:
+
+    * One-to-many to **Workout** (creations)
+    * Many-to-many to **Workout** (saved workouts)
+    * One-to-one to **WeeklyWorkout** (the user’s calendar plan)
+
+* **Exercise**
+
+  * Captures metadata—`bodyPart`, `equipment`, `gifUrl`, `name`, `target`.
+  * Stores `secondaryMuscles` and `instructions` as JSON-encoded text.
+  * Provides helper methods `get_secondary_muscles()`, `get_instructions()`, and `serialize()` to return a JSON-ready dict.
+
+* **Workout**
+
+  * Records a session’s `name`, `description`, `duration`, and author (`created_by`).
+  * Keeps two JSON columns:
+
+    1. `exercises` → list of exercise IDs
+    2. `exercise_plan` → map of exercise ID → details (sets, reps, weight, etc.)
+  * Methods like `add_exercise()`, `remove_exercise()`, and `get_exercises_with_details()` let me mutate or fully hydrate the workout on demand.
+
+* **WeeklyWorkout**
+
+  * Bundles seven foreign keys (Monday through Sunday) to link each day of the week to a specific `Workout`.
+  * Includes a `week_start_date` to anchor the plan in time.
+
+* **Post**
+
+  * Enables a simple social feed: each post has `title`, `content`, author, and an optional link to a `Workout` or `WeeklyWorkout`.
+
+All models inherit from SQLAlchemy’s `db.Model`, and I call `db.create_all()` on startup to ensure the SQLite schema is in place.
+
+---
+
+## CRUD Endpoints
+
+With authentication and models in place, I exposed a full REST API:
+
+* **User Routes**
+
+  * `/api/register/` (POST): create a new username/password user and issue tokens.
+  * `/api/login/` (POST): local login with username + password.
+  * `/api/google-login/` (POST): social login with ID token.
+  * `/api/session/` (POST): renew session via `update_token`.
+  * `/api/logout/` (POST): clear tokens and end session.
+  * `/api/user/` (GET): fetch current user profile.
+
+* **Exercise Routes**
+
+  * `/api/exercises/` (GET/POST): list or create exercises.
+  * `/api/exercises/<id>` (GET): single exercise by ID.
+
+* **GIF Delivery**
+
+  * `/api/gifs/<gif_id>/` (GET): serves `gif_id.gif` from a local directory.
+
+* **Workout Routes**
+
+  * `/api/workouts/` (GET/POST): list or create workouts.
+  * `/api/workouts/<id>/` (GET/PUT/DELETE): retrieve, update, or delete—protected so only the creator may modify.
+
+* **WeeklyWorkout Routes**
+
+  * `/api/weekly-workouts/` (GET/POST): list or create a week plan.
+  * `/api/weekly-workouts/<id>/` (GET/PUT/DELETE): manage a specific plan—protected by ownership.
+
+* **Social Post Routes**
+
+  * `/api/posts/` (GET/POST): list or create posts.
+  * `/api/posts/<id>/` (GET/PUT/DELETE): manage a specific post—only the author may modify or delete.
+
+Each protected route is decorated with `@user_authentication_required`. Unprotected “GET all” routes are open so the frontend can display public catalogs (exercises, workouts, posts).
+
+---
+
+## Dining Recommendations (OpenAI Integration)
+
+Beyond workouts, I built a **`/api/dining/top-meals/`** endpoint that:
+
+1. Authenticates the user.
+2. Fetches campus dining menus via my helper module.
+3. Sends a custom prompt—including the user’s goal (“cutting” or “bulking”)—to OpenAI’s GPT model.
+4. Returns the top-10 meal recommendations as a Markdown-formatted string.
+
+All API keys (Google and OpenAI) live in environment variables, keeping secrets out of source control.
+
+---
