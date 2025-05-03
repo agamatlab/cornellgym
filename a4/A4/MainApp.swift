@@ -165,7 +165,7 @@ struct MainTabView: View {
                     .tag(2)
                     .transition(.opacity)
                 
-                // Add EateryView as the 4th tab
+                // Updated to use "Dining" instead of "Eatery"
                 EateryView()
                     .tag(3)
                     .transition(.opacity)
@@ -190,17 +190,17 @@ struct CustomTabBar: View {
     @Namespace private var tabAnimation
     @EnvironmentObject var themeManager: ThemeManager
     
-    // Updated tabItems array with new Eatery tab
+    // Updated tabItems array with new names and icons
     let tabItems = [
         TabItem(icon: "house.fill", title: "Home"),
-        TabItem(icon: "figure.stand", title: "Anatomy"),
-        TabItem(icon: "chart.bar.fill", title: "History"),
-        TabItem(icon: "fork.knife", title: "Eatery"),    // Added Eatery tab with fork.knife icon
+        TabItem(icon: "dumbbell.fill", title: "Exercises"),
+        TabItem(icon: "calendar", title: "Week"),
+        TabItem(icon: "fork.knife", title: "Dining"),
         TabItem(icon: "person.fill", title: "Profile")
     ]
     
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             ForEach(0..<tabItems.count, id: \.self) { index in
                 let item = tabItems[index]
                 VStack(spacing: 0) {
@@ -227,12 +227,12 @@ struct CustomTabBar: View {
                                         .fill(themeManager.current.surface1)
                                         .matchedGeometryEffect(id: "tab_background", in: tabAnimation)
                                         .frame(height: 60)
-                                  
                                 }
                             }
                         )
                     }
                 }
+                .frame(maxWidth: .infinity)
             }
         }
         .padding(.horizontal, 8)
