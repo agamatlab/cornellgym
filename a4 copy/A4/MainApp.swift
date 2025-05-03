@@ -130,6 +130,7 @@ class UserModel: ObservableObject {
     @Published var name: String = "User"
     @Published var userId: String = ""
     @Published var email: String = ""
+    @Published var username: String = ""
     @Published var selectedMuscle: String? = nil
     @Published var workoutSchedule: [String: String] = [
         "Monday": "Chest",

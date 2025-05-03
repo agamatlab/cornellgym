@@ -22,7 +22,41 @@
 		4918533F2DC57E4400EAA794 /* EateryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4918533E2DC57E4100EAA794 /* EateryView.swift */; };
 		491853422DC586CF00EAA794 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 491853412DC586CF00EAA794 /* MarkdownUI */; };
 		491853482DC5993900EAA794 /* WeeklyWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853472DC5993900EAA794 /* WeeklyWorkoutView.swift */; };
-		4918539A2DC5CD7F00EAA794 /* MuscleDetailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853992DC5CD7B00EAA794 /* MuscleDetailedView.swift */; };
+		491853762DC5CB7B00EAA794 /* MuscleSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853652DC5CB7B00EAA794 /* MuscleSelectionView.swift */; };
+		491853772DC5CB7B00EAA794 /* ThemeSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4918536E2DC5CB7B00EAA794 /* ThemeSettingsView.swift */; };
+		491853782DC5CB7B00EAA794 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4918536D2DC5CB7B00EAA794 /* ThemeManager.swift */; };
+		491853792DC5CB7B00EAA794 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853602DC5CB7B00EAA794 /* LoginView.swift */; };
+		4918537A2DC5CB7B00EAA794 /* MeshGradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853622DC5CB7B00EAA794 /* MeshGradientBackground.swift */; };
+		4918537B2DC5CB7B00EAA794 /* EateryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853572DC5CB7B00EAA794 /* EateryView.swift */; };
+		4918537C2DC5CB7B00EAA794 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4918535D2DC5CB7B00EAA794 /* HomeView.swift */; };
+		4918537D2DC5CB7B00EAA794 /* WorkoutHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853742DC5CB7B00EAA794 /* WorkoutHistoryView.swift */; };
+		4918537E2DC5CB7B00EAA794 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4918536B2DC5CB7B00EAA794 /* TestView.swift */; };
+		4918537F2DC5CB7B00EAA794 /* Untitled 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853702DC5CB7B00EAA794 /* Untitled 2.swift */; };
+		491853802DC5CB7B00EAA794 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853712DC5CB7B00EAA794 /* ViewController.swift */; };
+		491853812DC5CB7B00EAA794 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853512DC5CB7B00EAA794 /* AppDelegate.swift */; };
+		491853822DC5CB7B00EAA794 /* ExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853582DC5CB7B00EAA794 /* ExerciseView.swift */; };
+		491853832DC5CB7B00EAA794 /* HackProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4918535C2DC5CB7B00EAA794 /* HackProjectApp.swift */; };
+		491853842DC5CB7B00EAA794 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853562DC5CB7B00EAA794 /* ContentView.swift */; };
+		491853852DC5CB7B00EAA794 /* Untitled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4918536F2DC5CB7B00EAA794 /* Untitled.swift */; };
+		491853862DC5CB7B00EAA794 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853592DC5CB7B00EAA794 /* UIColor+Extension.swift */; };
+		491853872DC5CB7B00EAA794 /* MusclePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853642DC5CB7B00EAA794 /* MusclePreview.swift */; };
+		491853882DC5CB7B00EAA794 /* WorkoutEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853732DC5CB7B00EAA794 /* WorkoutEditorView.swift */; };
+		491853892DC5CB7B00EAA794 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853662DC5CB7B00EAA794 /* NetworkManager.swift */; };
+		4918538A2DC5CB7B00EAA794 /* MainApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853612DC5CB7B00EAA794 /* MainApp.swift */; };
+		4918538B2DC5CB7B00EAA794 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853682DC5CB7B00EAA794 /* ProfileView.swift */; };
+		4918538C2DC5CB7B00EAA794 /* SocialFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4918536A2DC5CB7B00EAA794 /* SocialFeedView.swift */; };
+		4918538D2DC5CB7B00EAA794 /* ProfileImageVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853672DC5CB7B00EAA794 /* ProfileImageVIew.swift */; };
+		4918538E2DC5CB7B00EAA794 /* HumanModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4918535E2DC5CB7B00EAA794 /* HumanModelView.swift */; };
+		4918538F2DC5CB7B00EAA794 /* WorkoutPostCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853752DC5CB7B00EAA794 /* WorkoutPostCard.swift */; };
+		491853902DC5CB7B00EAA794 /* TextAnimationDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4918536C2DC5CB7B00EAA794 /* TextAnimationDemo.swift */; };
+		491853912DC5CB7B00EAA794 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853692DC5CB7B00EAA794 /* SceneDelegate.swift */; };
+		491853922DC5CB7B00EAA794 /* AnimatedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853502DC5CB7B00EAA794 /* AnimatedText.swift */; };
+		491853932DC5CB7B00EAA794 /* WeeklyWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853722DC5CB7B00EAA794 /* WeeklyWorkoutView.swift */; };
+		491853942DC5CB7B00EAA794 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4918535A2DC5CB7B00EAA794 /* UIFont+Extension.swift */; };
+		491853952DC5CB7B00EAA794 /* MuscleDetailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491853632DC5CB7B00EAA794 /* MuscleDetailedView.swift */; };
+		491853962DC5CB7B00EAA794 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 491853542DC5CB7B00EAA794 /* LaunchScreen.storyboard */; };
+		491853972DC5CB7B00EAA794 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4918535F2DC5CB7B00EAA794 /* Info.plist */; };
+		491853982DC5CB7B00EAA794 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 491853522DC5CB7B00EAA794 /* Assets.xcassets */; };
 		4937B4C02DC20E430036192C /* ThemeSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4937B4BD2DC20E430036192C /* ThemeSettingsView.swift */; };
 		4937B4C12DC20E430036192C /* WorkoutEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4937B4BE2DC20E430036192C /* WorkoutEditorView.swift */; };
 		4937B4C22DC20E430036192C /* MuscleSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4937B4B92DC20E430036192C /* MuscleSelectionView.swift */; };
@@ -56,7 +90,41 @@
 		4918533C2DC5640300EAA794 /* ProfileImageVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageVIew.swift; sourceTree = "<group>"; };
 		4918533E2DC57E4100EAA794 /* EateryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EateryView.swift; sourceTree = "<group>"; };
 		491853472DC5993900EAA794 /* WeeklyWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyWorkoutView.swift; sourceTree = "<group>"; };
-		491853992DC5CD7B00EAA794 /* MuscleDetailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleDetailedView.swift; sourceTree = "<group>"; };
+		491853502DC5CB7B00EAA794 /* AnimatedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedText.swift; sourceTree = "<group>"; };
+		491853512DC5CB7B00EAA794 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		491853522DC5CB7B00EAA794 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		491853532DC5CB7B00EAA794 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		491853562DC5CB7B00EAA794 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		491853572DC5CB7B00EAA794 /* EateryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EateryView.swift; sourceTree = "<group>"; };
+		491853582DC5CB7B00EAA794 /* ExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseView.swift; sourceTree = "<group>"; };
+		491853592DC5CB7B00EAA794 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		4918535A2DC5CB7B00EAA794 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		4918535C2DC5CB7B00EAA794 /* HackProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackProjectApp.swift; sourceTree = "<group>"; };
+		4918535D2DC5CB7B00EAA794 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		4918535E2DC5CB7B00EAA794 /* HumanModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumanModelView.swift; sourceTree = "<group>"; };
+		4918535F2DC5CB7B00EAA794 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		491853602DC5CB7B00EAA794 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		491853612DC5CB7B00EAA794 /* MainApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainApp.swift; sourceTree = "<group>"; };
+		491853622DC5CB7B00EAA794 /* MeshGradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradientBackground.swift; sourceTree = "<group>"; };
+		491853632DC5CB7B00EAA794 /* MuscleDetailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleDetailedView.swift; sourceTree = "<group>"; };
+		491853642DC5CB7B00EAA794 /* MusclePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusclePreview.swift; sourceTree = "<group>"; };
+		491853652DC5CB7B00EAA794 /* MuscleSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleSelectionView.swift; sourceTree = "<group>"; };
+		491853662DC5CB7B00EAA794 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		491853672DC5CB7B00EAA794 /* ProfileImageVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageVIew.swift; sourceTree = "<group>"; };
+		491853682DC5CB7B00EAA794 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		491853692DC5CB7B00EAA794 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		4918536A2DC5CB7B00EAA794 /* SocialFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialFeedView.swift; sourceTree = "<group>"; };
+		4918536B2DC5CB7B00EAA794 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		4918536C2DC5CB7B00EAA794 /* TextAnimationDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAnimationDemo.swift; sourceTree = "<group>"; };
+		4918536D2DC5CB7B00EAA794 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		4918536E2DC5CB7B00EAA794 /* ThemeSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettingsView.swift; sourceTree = "<group>"; };
+		4918536F2DC5CB7B00EAA794 /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
+		491853702DC5CB7B00EAA794 /* Untitled 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Untitled 2.swift"; sourceTree = "<group>"; };
+		491853712DC5CB7B00EAA794 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		491853722DC5CB7B00EAA794 /* WeeklyWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyWorkoutView.swift; sourceTree = "<group>"; };
+		491853732DC5CB7B00EAA794 /* WorkoutEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutEditorView.swift; sourceTree = "<group>"; };
+		491853742DC5CB7B00EAA794 /* WorkoutHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutHistoryView.swift; sourceTree = "<group>"; };
+		491853752DC5CB7B00EAA794 /* WorkoutPostCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPostCard.swift; sourceTree = "<group>"; };
 		4937B4B22DC20E430036192C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4937B4B32DC20E430036192C /* ExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseView.swift; sourceTree = "<group>"; };
 		4937B4B52DC20E430036192C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -121,11 +189,44 @@
 		2ED700562AF1CF5600B7C687 /* A4 */ = {
 			isa = PBXGroup;
 			children = (
-				491853992DC5CD7B00EAA794 /* MuscleDetailedView.swift */,
 				4918533E2DC57E4100EAA794 /* EateryView.swift */,
 				4918533C2DC5640300EAA794 /* ProfileImageVIew.swift */,
 				4918533A2DC4B6E200EAA794 /* AnimatedText.swift */,
 				49D2617B2DC4B57300C3570A /* MeshGradientBackground.swift */,
+				491853502DC5CB7B00EAA794 /* AnimatedText.swift */,
+				491853512DC5CB7B00EAA794 /* AppDelegate.swift */,
+				491853522DC5CB7B00EAA794 /* Assets.xcassets */,
+				491853552DC5CB7B00EAA794 /* Base.lproj */,
+				491853562DC5CB7B00EAA794 /* ContentView.swift */,
+				491853572DC5CB7B00EAA794 /* EateryView.swift */,
+				491853582DC5CB7B00EAA794 /* ExerciseView.swift */,
+				4918535B2DC5CB7B00EAA794 /* Extensions */,
+				4918535C2DC5CB7B00EAA794 /* HackProjectApp.swift */,
+				4918535D2DC5CB7B00EAA794 /* HomeView.swift */,
+				4918535E2DC5CB7B00EAA794 /* HumanModelView.swift */,
+				4918535F2DC5CB7B00EAA794 /* Info.plist */,
+				491853602DC5CB7B00EAA794 /* LoginView.swift */,
+				491853612DC5CB7B00EAA794 /* MainApp.swift */,
+				491853622DC5CB7B00EAA794 /* MeshGradientBackground.swift */,
+				491853632DC5CB7B00EAA794 /* MuscleDetailedView.swift */,
+				491853642DC5CB7B00EAA794 /* MusclePreview.swift */,
+				491853652DC5CB7B00EAA794 /* MuscleSelectionView.swift */,
+				491853662DC5CB7B00EAA794 /* NetworkManager.swift */,
+				491853672DC5CB7B00EAA794 /* ProfileImageVIew.swift */,
+				491853682DC5CB7B00EAA794 /* ProfileView.swift */,
+				491853692DC5CB7B00EAA794 /* SceneDelegate.swift */,
+				4918536A2DC5CB7B00EAA794 /* SocialFeedView.swift */,
+				4918536B2DC5CB7B00EAA794 /* TestView.swift */,
+				4918536C2DC5CB7B00EAA794 /* TextAnimationDemo.swift */,
+				4918536D2DC5CB7B00EAA794 /* ThemeManager.swift */,
+				4918536E2DC5CB7B00EAA794 /* ThemeSettingsView.swift */,
+				4918536F2DC5CB7B00EAA794 /* Untitled.swift */,
+				491853702DC5CB7B00EAA794 /* Untitled 2.swift */,
+				491853712DC5CB7B00EAA794 /* ViewController.swift */,
+				491853722DC5CB7B00EAA794 /* WeeklyWorkoutView.swift */,
+				491853732DC5CB7B00EAA794 /* WorkoutEditorView.swift */,
+				491853742DC5CB7B00EAA794 /* WorkoutHistoryView.swift */,
+				491853752DC5CB7B00EAA794 /* WorkoutPostCard.swift */,
 				2E07F6132AF1D04700395214 /* Extensions */,
 				4937B4B22DC20E430036192C /* ContentView.swift */,
 				4937B4B32DC20E430036192C /* ExerciseView.swift */,
@@ -149,6 +250,23 @@
 				2ED700652AF1CF5700B7C687 /* Info.plist */,
 			);
 			path = A4;
+			sourceTree = "<group>";
+		};
+		491853552DC5CB7B00EAA794 /* Base.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				491853542DC5CB7B00EAA794 /* LaunchScreen.storyboard */,
+			);
+			path = Base.lproj;
+			sourceTree = "<group>";
+		};
+		4918535B2DC5CB7B00EAA794 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				491853592DC5CB7B00EAA794 /* UIColor+Extension.swift */,
+				4918535A2DC5CB7B00EAA794 /* UIFont+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +347,9 @@
 			files = (
 				2ED700642AF1CF5700B7C687 /* LaunchScreen.storyboard in Resources */,
 				2ED700612AF1CF5700B7C687 /* Assets.xcassets in Resources */,
+				491853962DC5CB7B00EAA794 /* LaunchScreen.storyboard in Resources */,
+				491853972DC5CB7B00EAA794 /* Info.plist in Resources */,
+				491853982DC5CB7B00EAA794 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,7 +371,6 @@
 				4918533B2DC4B6E700EAA794 /* AnimatedText.swift in Sources */,
 				4937B4CF2DC2B93E0036192C /* TestView.swift in Sources */,
 				49D261732DC4845400C3570A /* LoginView.swift in Sources */,
-				4918539A2DC5CD7F00EAA794 /* MuscleDetailedView.swift in Sources */,
 				4937B4C62DC20E430036192C /* ExerciseView.swift in Sources */,
 				4937B4C72DC20E430036192C /* NetworkManager.swift in Sources */,
 				4937B4C82DC20E430036192C /* MainApp.swift in Sources */,
@@ -263,6 +383,38 @@
 				2E07F6152AF1D05700395214 /* UIFont+Extension.swift in Sources */,
 				2ED7005A2AF1CF5600B7C687 /* SceneDelegate.swift in Sources */,
 				2E07F6172AF1D06A00395214 /* UIColor+Extension.swift in Sources */,
+				491853762DC5CB7B00EAA794 /* MuscleSelectionView.swift in Sources */,
+				491853772DC5CB7B00EAA794 /* ThemeSettingsView.swift in Sources */,
+				491853782DC5CB7B00EAA794 /* ThemeManager.swift in Sources */,
+				491853792DC5CB7B00EAA794 /* LoginView.swift in Sources */,
+				4918537A2DC5CB7B00EAA794 /* MeshGradientBackground.swift in Sources */,
+				4918537B2DC5CB7B00EAA794 /* EateryView.swift in Sources */,
+				4918537C2DC5CB7B00EAA794 /* HomeView.swift in Sources */,
+				4918537D2DC5CB7B00EAA794 /* WorkoutHistoryView.swift in Sources */,
+				4918537E2DC5CB7B00EAA794 /* TestView.swift in Sources */,
+				4918537F2DC5CB7B00EAA794 /* Untitled 2.swift in Sources */,
+				491853802DC5CB7B00EAA794 /* ViewController.swift in Sources */,
+				491853812DC5CB7B00EAA794 /* AppDelegate.swift in Sources */,
+				491853822DC5CB7B00EAA794 /* ExerciseView.swift in Sources */,
+				491853832DC5CB7B00EAA794 /* HackProjectApp.swift in Sources */,
+				491853842DC5CB7B00EAA794 /* ContentView.swift in Sources */,
+				491853852DC5CB7B00EAA794 /* Untitled.swift in Sources */,
+				491853862DC5CB7B00EAA794 /* UIColor+Extension.swift in Sources */,
+				491853872DC5CB7B00EAA794 /* MusclePreview.swift in Sources */,
+				491853882DC5CB7B00EAA794 /* WorkoutEditorView.swift in Sources */,
+				491853892DC5CB7B00EAA794 /* NetworkManager.swift in Sources */,
+				4918538A2DC5CB7B00EAA794 /* MainApp.swift in Sources */,
+				4918538B2DC5CB7B00EAA794 /* ProfileView.swift in Sources */,
+				4918538C2DC5CB7B00EAA794 /* SocialFeedView.swift in Sources */,
+				4918538D2DC5CB7B00EAA794 /* ProfileImageVIew.swift in Sources */,
+				4918538E2DC5CB7B00EAA794 /* HumanModelView.swift in Sources */,
+				4918538F2DC5CB7B00EAA794 /* WorkoutPostCard.swift in Sources */,
+				491853902DC5CB7B00EAA794 /* TextAnimationDemo.swift in Sources */,
+				491853912DC5CB7B00EAA794 /* SceneDelegate.swift in Sources */,
+				491853922DC5CB7B00EAA794 /* AnimatedText.swift in Sources */,
+				491853932DC5CB7B00EAA794 /* WeeklyWorkoutView.swift in Sources */,
+				491853942DC5CB7B00EAA794 /* UIFont+Extension.swift in Sources */,
+				491853952DC5CB7B00EAA794 /* MuscleDetailedView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +425,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				2ED700632AF1CF5700B7C687 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		491853542DC5CB7B00EAA794 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				491853532DC5CB7B00EAA794 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
