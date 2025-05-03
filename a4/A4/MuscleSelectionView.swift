@@ -1,16 +1,6 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-extension Exercise: Hashable {
-    static func == (lhs: Exercise, rhs: Exercise) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
-
 struct MuscleSelectionWithPreviewView: View {
     @State private var exercises: [Exercise] = []
     @State private var isLoading = true
@@ -21,7 +11,9 @@ struct MuscleSelectionWithPreviewView: View {
     @State private var selectedEquipment: String? = nil
     @State private var selectedTarget: String? = nil
     @State private var showFilters = false
-    @State private var selectedExerciseID: String? = nil
+    
+    @State private var selectedExercise: Exercise? = nil
+    @State private var showExerciseDetail = false
     
     private var bodyParts: [String] {
         return Array(Set(exercises.map { $0.bodyPart })).sorted()
@@ -56,6 +48,7 @@ struct MuscleSelectionWithPreviewView: View {
     var body: some View {
         NavigationView {
             ZStack {
+                // Background that ignores safe areas
                 LinearGradient(
                     gradient: Gradient(colors: [
                         Color(red: 0.05, green: 0.05, blue: 0.1),
@@ -66,12 +59,19 @@ struct MuscleSelectionWithPreviewView: View {
                 )
                 .edgesIgnoringSafeArea(.all)
                 
+                // Content that respects safe areas with extra padding for notch
                 VStack(spacing: 0) {
+                    // Add extra padding at the top
+                    Color.clear.frame(height: 20)
+                    
+                    // Title now in a container with background for better visibility
                     Text("Exercise Library")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
-                        .padding(.top)
+                        .padding(.vertical, 15)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.black.opacity(0.2))
                     
                     HStack(spacing: 6) {
                         HStack {
@@ -282,6 +282,7 @@ struct MuscleSelectionWithPreviewView: View {
                             Text("\(filteredExercises.count) exercises found")
                                 .foregroundColor(.gray.opacity(0.9))
                                 .font(.subheadline)
+                                .padding(.bottom,5)
                             
                             Spacer()
                             
@@ -301,18 +302,37 @@ struct MuscleSelectionWithPreviewView: View {
                         ScrollView(.vertical, showsIndicators: false) {
                             LazyVStack(spacing: 16) {
                                 ForEach(filteredExercises, id: \.id) { exercise in
-                                    NavigationLink(destination: DetailedMuscleView(exercise: exercise)) {
-                                        ExerciseView(exercise: exercise)
-                                            .frame(width: UIScreen.main.bounds.width - 24)
-                                    }
+                                    ExerciseCard(exercise: exercise)
+                                        .frame(width: UIScreen.main.bounds.width - 24)
+                                        .onTapGesture {
+                                            selectedExercise = exercise
+                                            showExerciseDetail = true
+                                        }
                                 }
                             }
                             .padding(.vertical, 16)
                         }
                     }
                 }
+                .safeAreaInset(edge: .top) {
+                    // Extra safe area inset for the notch
+                    Color.clear.frame(height: 1)
+                }
+                .safeAreaInset(edge: .bottom) {
+                    // Bottom padding for safe area
+                    Color.clear.frame(height: 1)
+                }
+                
+                // Navigation link for detail view
+                NavigationLink(
+                    destination: selectedExercise.map { DetailedMuscleView(exercise: $0) },
+                    isActive: $showExerciseDetail,
+                    label: { EmptyView() }
+                )
+                .hidden()
             }
             .navigationBarHidden(true)
+            .statusBar(hidden: false) // Explicitly show status bar to help with spacing
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
@@ -333,23 +353,113 @@ struct MuscleSelectionWithPreviewView: View {
                     if fetchedExercises.isEmpty {
                         self.errorMessage = "No exercises found on the server."
                     } else {
-                        print("Loaded \(fetchedExercises.count) exercises")
-                        
                         var updatedExercises = fetchedExercises
                         
                         for index in 0..<updatedExercises.count {
+                            print(index)
                             updatedExercises[index].id = String(index + 1)
                         }
                         
                         self.exercises = updatedExercises
-                        print("Reassigned IDs for \(updatedExercises.count) exercises, starting from 1")
                     }
                 case .failure(let error):
                     self.errorMessage = "Failed to load exercises: \(error.localizedDescription)"
-                    print("Error: \(error.localizedDescription)")
                 }
             }
         }
+    }
+}
+
+struct ExerciseCard: View {
+    let exercise: Exercise
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Text(exercise.name.uppercased())
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+                Spacer()
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
+            .padding(.bottom, 8)
+            
+            HStack(alignment: .top, spacing: 16) {
+
+                let gifUrl = "http://34.59.215.239/api/gifs/\(exercise.id)/"
+
+                AnimatedImage(url: URL(string: gifUrl))
+                    .indicator(SDWebImageActivityIndicator.medium)
+                    .transition(.fade)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 100, height: 100)
+                    .background(Color.white)
+                    .cornerRadius(12)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                    )
+                    .shadow(color: Color.black.opacity(0.15), radius: 2, x: 0, y: 1)
+                
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "target")
+                            .foregroundColor(Color.purple.opacity(0.9))
+                            .font(.system(size: 14))
+                        Text(exercise.target.capitalized)
+                            .font(.subheadline)
+                            .foregroundColor(Color.white)
+                    }
+                    
+                    HStack(spacing: 6) {
+                        Image(systemName: "figure.walk")
+                            .foregroundColor(Color.cyan.opacity(0.9))
+                            .font(.system(size: 14))
+                        Text(exercise.bodyPart.capitalized)
+                            .font(.subheadline)
+                            .foregroundColor(Color.white)
+                    }
+                    
+                    HStack(spacing: 6) {
+                        Image(systemName: "dumbbell.fill")
+                            .foregroundColor(Color.orange.opacity(0.9))
+                            .font(.system(size: 14))
+                        Text(exercise.equipment.capitalized)
+                            .font(.subheadline)
+                            .foregroundColor(Color.white)
+                    }
+                }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.white.opacity(0.7))
+                    .padding(.trailing, 8)
+            }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 16)
+        }
+        .background(
+            RadialGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 0.15, green: 0.15, blue: 0.25).opacity(0.9),
+                    Color(red: 0.1, green: 0.1, blue: 0.18)
+                ]),
+                center: .bottomLeading,
+                startRadius: 100,
+                endRadius: 400
+            )
+        )
+        .cornerRadius(16)
+        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+        )
     }
 }
 
@@ -371,6 +481,7 @@ struct FilterSection: View {
                     .foregroundColor(.white)
             }
             .padding(.horizontal, 8)
+            .padding(.bottom, 10)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
@@ -391,7 +502,7 @@ struct FilterSection: View {
                     }
                 }
                 .padding(.horizontal, 8)
-                .padding(.vertical, 4)
+                .padding(.vertical, 10)
             }
         }
     }
@@ -435,190 +546,5 @@ struct FilterChip: View {
                 )
         }
         .buttonStyle(PlainButtonStyle())
-    }
-}
-
-struct DetailedMuscleView: View {
-    let exercise: Exercise
-    @State private var loopCount: UInt = 100
-    
-    @Environment(\.presentationMode) var presentationMode
-    
-    var body: some View {
-        ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(red: 0.05, green: 0.05, blue: 0.1),
-                    Color(red: 0.1, green: 0.1, blue: 0.2)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .edgesIgnoringSafeArea(.all)
-            
-            ScrollView {
-                Color.clear.frame(height: 20)
-                
-                VStack(alignment: .leading, spacing: 20) {
-                    HStack {
-                        Button(action: {
-                            presentationMode.wrappedValue.dismiss()
-                        }) {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 22, weight: .semibold))
-                                .foregroundColor(.white)
-                                .frame(width: 44, height: 44)
-                                .background(Color.black.opacity(0.2))
-                                .clipShape(Circle())
-                        }
-                        
-                        Spacer()
-                        
-                        Text(exercise.name.uppercased())
-                            .font(.headline)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                        
-                        Spacer()
-                        
-                        Color.clear.frame(width: 44, height: 44)
-                    }
-                    .padding(.horizontal)
-                    .padding(.top, 16)
-                    
-                    ZStack {
-                        Color(red: 0.1, green: 0.1, blue: 0.2)
-                            .cornerRadius(12)
-                        
-                        VStack {
-                            let sequentialId = ExerciseService.shared.getSequentialId(for: exercise.id)
-                            let gifUrl = "http://34.59.215.239/api/gifs/\(sequentialId)/"
-                            
-                            AnimatedImage(url: URL(string: gifUrl))
-                                .indicator(SDWebImageActivityIndicator.medium)
-                                .transition(.fade)
-                                .resizable()
-                                .customLoopCount(loopCount)
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 200)
-                                .cornerRadius(12)
-                                .padding()
-                        }
-                    }
-                    .padding(.horizontal)
-                    
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Exercise Details")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                        
-                        HStack(spacing: 20) {
-                            DetailItem(icon: "figure.walk", title: "Body Part", value: exercise.bodyPart.capitalized)
-                            DetailItem(icon: "dumbbell.fill", title: "Equipment", value: exercise.equipment.capitalized)
-                        }
-                        
-                        HStack(spacing: 20) {
-                            DetailItem(icon: "target", title: "Target", value: exercise.target.capitalized)
-                        }
-                        
-                        if !exercise.secondaryMuscles.isEmpty {
-                            Text("Secondary Muscles")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding(.top, 8)
-                            
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 8) {
-                                    ForEach(exercise.secondaryMuscles, id: \.self) { muscle in
-                                        Text(muscle.capitalized)
-                                            .font(.subheadline)
-                                            .padding(.horizontal, 12)
-                                            .padding(.vertical, 6)
-                                            .background(Color.blue.opacity(0.3))
-                                            .foregroundColor(.white)
-                                            .cornerRadius(10)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(Color(red: 0.15, green: 0.15, blue: 0.25).opacity(0.7))
-                    )
-                    .padding(.horizontal)
-                    
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Instructions")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                        
-                        ForEach(0..<exercise.instructions.count, id: \.self) { index in
-                            HStack(alignment: .top, spacing: 12) {
-                                Text("\(index + 1).")
-                                    .font(.headline)
-                                    .foregroundColor(.blue)
-                                    .frame(width: 24, alignment: .center)
-                                
-                                Text(exercise.instructions[index])
-                                    .font(.body)
-                                    .foregroundColor(.white.opacity(0.9))
-                                    .fixedSize(horizontal: false, vertical: true)
-                            }
-                            .padding(.vertical, 4)
-                        }
-                    }
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(Color(red: 0.15, green: 0.15, blue: 0.25).opacity(0.7))
-                    )
-                    .padding(.horizontal)
-                    
-                    Spacer(minLength: 40)
-                }
-                .padding(.bottom)
-            }
-            .safeAreaInset(edge: .top) {
-                Color.clear.frame(height: 1)
-            }
-        }
-        .navigationBarHidden(true)
-        .statusBar(hidden: false)
-    }
-}
-
-struct DetailItem: View {
-    let icon: String
-    let title: String
-    let value: String
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 6) {
-                Image(systemName: icon)
-                    .foregroundColor(Color.blue.opacity(0.8))
-                    .font(.system(size: 12))
-                
-                Text(title)
-                    .font(.caption)
-                    .foregroundColor(.gray)
-            }
-            
-            Text(value)
-                .font(.headline)
-                .foregroundColor(.white)
-        }
-        .frame(minWidth: 100, alignment: .leading)
-    }
-}
-
-struct MuscleSelectionWithPreviewView_Previews: PreviewProvider {
-    static var previews: some View {
-        MuscleSelectionWithPreviewView()
-            .preferredColorScheme(.dark)
     }
 }
