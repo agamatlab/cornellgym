@@ -1,6 +1,0 @@
-*.DS_Store
-.build/
-xcshareddata/
-xcuserdata/
-## Build generated
-build/
