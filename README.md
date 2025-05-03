@@ -1,5 +1,7 @@
 # RedGym
 
+[Demo Video](https://youtu.be/JQS2jVGyl3s?si=Ub-RGouNtGukeGf_)
+
 ---
 
 ## Authentication & Profile Login
@@ -160,6 +162,8 @@ Behind the scenes, an `AuthManager` singleton handles every aspect of session ma
 Visually, my login page blends several WWDC 2024 inspirations—mesh gradients, dynamic text-reveal animations, and custom shaders—to provide an engaging first impression.
 
 ---
+
+
 
 ## Global State with `UserModel`
 
